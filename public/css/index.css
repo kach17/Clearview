@@ -1,0 +1,47 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,500;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap");
+
+.show-page-title {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 36px;
+}
+.show-page-body {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-size: 24px;
+}
+.show-page-card {
+  margin-bottom: 70px;
+}
+.show-page-card img {
+  width: 100%;
+}
+.show-page-description {
+  font-size: 20px;
+}
+.home-page-title {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300 !important;
+}
+.home-page-div-notfollowinganyone {
+  margin-top: 50px;
+}
+.home-page-div-notfollowinganyone button {
+  margin-top: 10px;
+  display: block;
+  border-radius: 25px;
+}
+.home-page-div-notfollowinganyone a {
+  text-decoration: none;
+}
+.fh5co-nav #fh5co-logo {
+  font-size: 32px;
+  margin: 0;
+  padding: 0;
+  font-weight: 700;
+  font-family: "Inconsolata", Arial, sans-serif;
+}
+.fh5co-nav #fh5co-logo a span {
+  color: #DD356E;
+}

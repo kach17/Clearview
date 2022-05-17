@@ -1,0 +1,74 @@
+<%- layout('./layouts/boilerplate') %>
+
+<div class="row mt-3">
+  <h1 class="text-center">Update Post</h1>
+  <div class="col-6 offset-3">
+    <form
+      action="/blog/<%= blog._id %>/edit?_method=put"
+      method="POST"
+      novalidate
+      class="needs-validation"
+      enctype="multipart/form-data"
+    >
+      <div class="mb-3">
+        <label class="form-label" for="title">Title</label>
+        <input
+          class="form-control"
+          type="text"
+          id="title"
+          name="title"
+          value="<%= blog.title %>"
+          required
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="coverImage">Cover Image</label>
+        <input
+          class="form-control"
+          type="file"
+          id="coverImage"
+          name="coverImage"
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="description">Description</label>
+        <input
+          class="form-control"
+          type="text"
+          id="description"
+          name="description"
+          value="<%= blog.description %>"
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="tags">Tags</label>
+        <input
+          class="form-control"
+          type="text"
+          id="tags"
+          name="tags"
+          value="<%= blog.tagList %>"
+          placeholder="Enter tags seperated by comma"
+        />
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="body">Body</label>
+        <textarea
+          class="form-control"
+          rows="10"
+          type="text"
+          id="body"
+          name="body"
+          value="<%= blog.body %>"
+          required
+        >
+        <%= blog.body %> </textarea
+        >
+      </div>
+      <div class="mb-3">
+        <button class="btn btn-success">Update</button>
+      </div>
+    </form>
+    <!-- <a href="/campgrounds">All campgrounds</a> -->
+  </div>
+</div>

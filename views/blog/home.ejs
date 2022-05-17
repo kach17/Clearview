@@ -1,0 +1,57 @@
+  <%- layout('./layouts/boilerplate') %> 
+    <div class="container">
+      <div class="row">
+        <div class="col-8">
+
+          <ul class="nav nav-tabs" style="width:60%">
+          <% if(currentUser!==undefined){ %> 
+            <li class="nav-item">
+              <a class="nav-link <%= (global===false ? "active" : "") %>"  href="/home" aria-current="<%= (global===false ? "page" : "") %>">Your Feed</a>
+            </li>
+            <% } %> 
+            <li class="nav-item">
+              <a class="nav-link <%= (global===true ? "active" : "") %>" href="/global" aria-current="<%= (global===false ? "page" : "") %>">Global Feed</a>
+            </li>
+
+            <% if(tag){ %>
+              <li class="nav-item">
+                <a class="nav-link <%= (tag ? "active" : "") %>" href="/tag/<%= tag %> " aria-current="<%= (global===false ? "page" : "") %>"># <%= tag %>  </a>
+              </li>
+              <% } %>  
+            
+        
+        </ul>
+        <div class="main-cards">
+          <% if(blogs.length === 0){ %>
+            <div class="home-page-div-notfollowinganyone">
+              <span> You do not follow any creator </span>
+              <a href="/global"><button class="btn btn-success" >Browse Global Feed</button></a> 
+            </div>
+            <% } %>  
+        <% for(let blog of blogs){ %>
+            <div class="card mb-3">
+                <span class="card-header" style="font-size:13px"><img src="https://miro.medium.com/fit/c/25/25/1*dmbNkD5D-u45r44go_cf0g.png" alt="">&nbsp <%= blog.author.username %>  </span>
+                <div class="card-body">
+                  <a href="/blog/<%= blog._id %>" style="text-decoration:none;color:black">
+                    <h4 style="font-weight:bold" class="card-title home-page-title"><%= blog.title %></h4>
+                    <p class="card-text text-muted"><%= blog.description %></p> </p>
+                  </a>
+                  <!-- <a href="blog/<%= blog._id %>" class="btn btn-primary">View</a> -->
+                </div>
+            </div>
+        <% } %>  
+      </div>
+        </div>
+  
+        <div class="col-2 offset-md-1 mt-5 col-sm-0">
+          <div class="card">
+            <div class="card-body">
+              <% for(let tag of tags){ %>
+                <a href="/tag/<%= tag.tag %>"> <span class="btn badge rounded-pill bg-secondary"> <%= tag.tag %> </span></a>   
+                <% } %>  
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
