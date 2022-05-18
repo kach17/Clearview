@@ -35,6 +35,7 @@
         <img src="<%= (blog.coverImage ? blog.coverImage.url : "") %>" alt="" />
         <div class="card-body">
           <h4 class="card-title show-page-title"><%= blog.title %></h4>
+          <p class="badge rounded-pill bg-secondary"><%= blog.tagList %></p>
           <p class="card-text text-muted show-page-description">
             <%= blog.description %>
           </p>
@@ -46,7 +47,7 @@
             class="d-inline"
             action="/blog/<%= blog._id %>/delete?_method=delete"
             method="POST"
-            onsubmit="return confirm('Are you sure?');"
+            onsubmit="return confirm('Are you sure you want to delete ?');"
           > 
             <button class="btn btn-danger">Delete</button>
           </form>

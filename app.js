@@ -120,7 +120,7 @@ app.post('/blog/new', isLoggedIn, upload.single('coverImage'), async (req, res) 
         await newTag.save();
     })
     req.flash('success', 'New blog post added');
-    res.redirect('/home')
+    res.redirect('/global')
 })
 
 // delete blog
@@ -147,7 +147,7 @@ app.put('/blog/:blogId/edit',upload.single('coverImage'), isLoggedIn, isAuthor, 
     const { title, description, tags, body} = req.body;
     const tagsArray = tags.split(',').map(tag => tag.trim());
     const { blogId } = req.params;
-    console.log(req.file);
+    // console.log(req.file);
     const updatedBlog = {
         title,
         coverImage: ( req.file ?  {
@@ -197,7 +197,6 @@ app.get('/tag/:tagname', async (req, res) => {
     res.render('blog/home', { blogs, tag: tagname, tags })
     // res.send(blogs);
 })
-
 
 //User registeration
 app.get('/user/register', (req, res) => {
