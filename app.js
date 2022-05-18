@@ -160,7 +160,7 @@ app.put('/blog/:blogId/edit',upload.single('coverImage'), isLoggedIn, isAuthor, 
     };
 
     const blog = await Blog.findByIdAndUpdate(blogId, updatedBlog, { useFindAndModify: false });
-    console.log(blog.coverImage);
+    // console.log(blog.coverImage);
     if (blog.coverImage) {
         try { await cloudinary.uploader.destroy(blog.coverImage.filename); }
         catch(err) { console.log(err)}
