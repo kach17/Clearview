@@ -4,7 +4,7 @@
     <div class="col-2">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title"><%= blog.author.username %></h5>
+          <h5 class="card-title"><b><%= blog.author.username %></b></h5>
           <hr />
           <% if(loggedIn && !(authorEqualCurrentUser)){ %> <% if(following){ %>
           <form
