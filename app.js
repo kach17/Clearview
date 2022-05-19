@@ -19,9 +19,13 @@ const { isLoggedIn, isAuthor } = require('./middleware')
 const User = require('./models/user')
 const Blog = require('./models/blog');
 const Tag = require('./models/tags');
-const dbUrl = process.env.DB_URL || "mongodb+srv://krozzgaming9:thisismysecretpassword@cluster0.oqzyk.mongodb.net/?retryWrites=true&w=majority";;
-const SECRET = process.env.SECRET || "thisismysecretpassword"
+const dbUrl = "mongodb+srv://" + process.env.dbUrl ;;
+const SECRET = process.env.SECRET
 const MongoDBStore = require('connect-mongo');
+const moment = require("moment");
+app.locals.moment = require('moment');
+
+
 
 mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
 const db = mongoose.connection;
@@ -81,7 +85,7 @@ app.get('/home', async (req, res) => {
 
     if (isLoggedIn) {
         const { following } = await User.findById(req.user._id);
-        const blogs = await Blog.find({ author: { $in: following } }).populate('author')
+        const blogs = await Blog.find({ author: { $in: following } }).populate('author').sort('-createdAt');
         const tags = await Tag.find({});
         res.render('blog/home', { blogs, tags, global: false, tag: false })
     } else {
@@ -89,7 +93,7 @@ app.get('/home', async (req, res) => {
     }
 })
 app.get('/global', async (req, res) => {
-    const blogs = await Blog.find({}).populate('author');
+    const blogs = await Blog.find({}).populate('author').sort('-createdAt');
     const tags = await Tag.find({});
     res.render('blog/home', { blogs, tags, global: true, tag: false })
 })
@@ -99,7 +103,7 @@ app.get('/blog/new', isLoggedIn, (req, res) => {
     res.render('blog/new');
 })
 app.post('/blog/new', isLoggedIn, upload.single('coverImage'), async (req, res) => {
-    const { title, description, tags, body } = req.body;
+    const { title, description, tags, body, createdAt } = req.body;
     const tagsArray = tags.split(',').map(tag => tag.trim());
     const newBlog = new Blog({
         title,
@@ -110,7 +114,8 @@ app.post('/blog/new', isLoggedIn, upload.single('coverImage'), async (req, res) 
         description,
         body,
         tagList: [...tagsArray],
-        author: req.user._id
+        author: req.user._id,
+        createdAt
     });
     await newBlog.save();
     tagsArray.forEach(async (tag) => {

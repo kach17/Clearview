@@ -38,6 +38,9 @@
                   </a>
                   <!-- <a href="blog/<%= blog._id %>" class="btn btn-primary">View</a> -->
                 </div>
+                <div class="card-footer text-muted">
+                  <%= moment(blog.createdAt).fromNow() %>
+                </div>
             </div>
         <% } %>  
       </div>
@@ -45,6 +48,10 @@
   
         <div class="col-2 offset-md-1 mt-5 col-sm-0">
           <div class="card">
+            <div class="card-header text-center text-white bg-dark">
+              Tags
+            </div>
+          
             <div class="card-body">
               <% for(let tag of tags){ %>
                 <a href="/tag/<%= tag.tag %>"> <span class="btn badge rounded-pill bg-secondary"> <%= tag.tag %> </span></a>   
