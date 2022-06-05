@@ -1,0 +1,25 @@
+<%- layout('./layouts/boilerplate') %>
+<h4 class="mb-3 text-center">Blogs by <cite><b><%= authorName %></b></cite></h4>
+<!-- const blogsByAuthor = await Blog.find({ author: req.user._id }).populate('author').sort('-createdAt'); -->
+<div class="row">
+	<div class="row justify-content-center">
+		<% for(let blog of blogs){ %>
+
+			<div class="card mb-3 w-75">
+				<div class="row">	
+					<span class="card-header" style="font-size:13px"><img src="https://miro.medium.com/fit/c/25/25/1*dmbNkD5D-u45r44go_cf0g.png" alt="">&nbsp <b><%= blog.author.username %></b>  </span>
+					<div class="card-body">
+						<a href="/blog/<%= blog._id %>" style="text-decoration:none;color:black">
+							<h4 style="font-weight:bold" class="card-title home-page-title"><%= blog.title %></h4>
+							<p class="card-text text-muted"><%= blog.description %></p> </p>
+						</a>
+						<!-- <a href="blog/<%= blog._id %>" class="btn btn-primary">View</a> -->
+					</div>
+					<div class="card-footer text-muted">
+						<%= moment(blog.createdAt).fromNow() %>
+					</div>
+				</div>
+			</div>
+		<% } %>
+	</div>
+</div>

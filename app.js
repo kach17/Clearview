@@ -106,7 +106,7 @@ app.get('/profile/posts', async (req, res) => {
     var authorName = user[0].username
     const blogsByAuthor = await Blog.find({ author: req.user._id }).populate('author').sort('-createdAt');
     const tags = await Tag.find({});
-    res.render('blog/home', { blogs:blogsByAuthor, tags, global: false, tag: false, authorPage: true, authorName: authorName})
+    res.render('blog/usersBlog', { blogs:blogsByAuthor, tags, global: false, tag: false, authorPage: true, authorName: authorName})
 })
 
 

@@ -17,10 +17,10 @@
               <li class="nav-item">
                 <a class="nav-link <%= (tag ? "active" : "") %>" href="/tag/<%= tag %> " aria-current="<%= (global===false ? "page" : "") %>"><b># <%= tag %> </b>  </a>
               </li>
-              <% } %>  
-
+              <% } %> 
+              
         
-        </ul>
+          </ul>
         <div class="main-cards">
           <% if(blogs.length === 0){ %>
             <div class="home-page-div-notfollowinganyone">
@@ -29,7 +29,7 @@
               <a href="/global"><button class="btn btn-success" >Browse Global Feed</button></a> 
             </div>
             <% } %>  
-        <% for(let blog of blogs){ %>
+          <% for(let blog of blogs){ %>
 
             <div class="card mb-3">
                 <span class="card-header" style="font-size:13px"><img src="https://miro.medium.com/fit/c/25/25/1*dmbNkD5D-u45r44go_cf0g.png" alt="">&nbsp <b><%= blog.author.username %></b>  </span>
@@ -44,10 +44,10 @@
                   <%= moment(blog.createdAt).fromNow() %>
                 </div>
             </div>
-        <% } %>
+          <% } %>
           
-      </div>
         </div>
+      </div>
   
         <div class="col-2 offset-md-1 mt-5 col-sm-0">
           <div class="card">
