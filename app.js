@@ -87,7 +87,7 @@ app.get('/home', async (req, res) => {
         const { following } = await User.findById(req.user._id);
         const blogs = await Blog.find({ author: { $in: following } }).populate('author').sort('-createdAt');
         const tags = await Tag.find({});
-        res.render('blog/home', { blogs, tags, global: false, tag: false, authorPage: false })
+        res.render('blog/home', { blogs, tags, global: false, tag: false})
     } else {
         res.redirect('/global');
     }
@@ -97,18 +97,30 @@ app.get('/home', async (req, res) => {
 app.get('/global', async (req, res) => {
     const blogs = await Blog.find({}).populate('author').sort('-createdAt');
     const tags = await Tag.find({});
-    res.render('blog/home', { blogs, tags, global: true, tag: false, authorPage: false})
+    res.render('blog/home', { blogs, tags, global: true, tag: false})
 })
 
-//User page
+//Profile page
 app.get('/profile/posts', async (req, res) => {
     var user = await User.find({_id: req.user._id})
     var authorName = user[0].username
     const blogsByAuthor = await Blog.find({ author: req.user._id }).populate('author').sort('-createdAt');
     const tags = await Tag.find({});
-    res.render('blog/usersBlog', { blogs:blogsByAuthor, tags, global: false, tag: false, authorPage: true, authorName: authorName})
+    res.render('blog/usersBlog', { blogs:blogsByAuthor, tags, global: false, tag: false, authorName: authorName})
 })
+    // authorId = Blog Writer
+    // req.user._id = Account Owner
 
+
+//User page
+app.get('/:authorId/posts', async (req, res) => {
+    const {authorId } = req.params;
+    var user = await User.find({_id: authorId})
+    var authorName = user[0].username
+    const blogsByAuthor = await Blog.find({ author: authorId }).populate('author').sort('-createdAt');
+    const tags = await Tag.find({});
+    res.render('blog/usersBlog', { blogs:blogsByAuthor, tags, global: false, tag: false, authorName: authorName})
+})
 
 // new blog creation
 app.get('/blog/new', isLoggedIn, (req, res) => {
@@ -211,10 +223,9 @@ app.get('/blog/:blogId', async (req, res) => {
 //tag
 app.get('/tag/:tagname', async (req, res) => {
     const { tagname } = req.params;
-    // const authorPage = null;
     const blogs = await Blog.find({ tagList: { $eq: tagname } }).populate('author').sort('-createdAt');
     const tags = await Tag.find({});
-    res.render('blog/home', { blogs, tag: tagname, tags, authorPage: null })
+    res.render('blog/home', { blogs, tag: tagname, tags})
     // res.send(blogs);
 })
 
@@ -266,6 +277,8 @@ app.post('/:blogId/:authorId/follow', isLoggedIn, async (req, res) => {
     const { blogId, authorId } = req.params;
 
     await User.updateOne({ _id: authorId }, { $push: { followers: req.user._id } })
+    // authorId = Blog Writer
+    // req.user._id = Account Owner
     await User.updateOne({ _id: req.user._id }, { $push: { following: authorId } });
     res.redirect(`/blog/${blogId}`);
 
