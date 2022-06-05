@@ -32,7 +32,12 @@
           <% for(let blog of blogs){ %>
 
             <div class="card mb-3">
-                <span class="card-header" style="font-size:13px"><img src="https://miro.medium.com/fit/c/25/25/1*dmbNkD5D-u45r44go_cf0g.png" alt="">&nbsp <b><%= blog.author.username %></b>  </span>
+              <a href="/<%= blog.author._id %>/posts" 
+                style="text-decoration: none; 
+                  color: #000;
+                  font-size:13px">
+                <div class="card-header"><img src="https://miro.medium.com/fit/c/25/25/1*dmbNkD5D-u45r44go_cf0g.png" alt="">&nbsp <b><%= blog.author.username %></b>  </div>
+              </a>
                 <div class="card-body">
                   <a href="/blog/<%= blog._id %>" style="text-decoration:none;color:black">
                     <h4 style="font-weight:bold" class="card-title home-page-title"><%= blog.title %></h4>
