@@ -4,7 +4,9 @@
     <div class="col-2">
       <div class="card">
         <div class="card-body">
+          <!-- <a href="/author/<%- blog.author._id %>"> -->
           <h5 class="card-title"><b><%= blog.author.username %></b></h5>
+        </a>
           <hr />
           <% if(loggedIn && !(authorEqualCurrentUser)){ %> <% if(following){ %>
           <form
@@ -30,16 +32,30 @@
       </div>
     </div>
 
+    <!--Function to include line breaks in body  -->
+    <% 
+      showParaFunc = function(blogText) {
+      blogText = blogText.replace(/\r\n/g, '<br>');
+      return blogText
+      }
+    %>
+
     <div class="col-8">
       <div class="card show-page-card">
         <img src="<%= (blog.coverImage ? blog.coverImage.url : "") %>" alt="" />
         <div class="card-body">
           <h4 class="card-title show-page-title"><%= blog.title %></h4>
-          <p class="badge rounded-pill bg-secondary"><%= blog.tagList %></p><hr>
+          <div>
+          <% for(let tag of blog.tagList){ %>
+            <a href="/tag/<%= tag %>" class="badge rounded-pill bg-secondary" role="button"><%= tag %></a>
+          <% } %>  
+        </div>
+        <hr>
           <p class="card-text text-muted show-page-description">
             <%= blog.description %>
           </p>
-          <p class="card-text show-page-body"><%= blog.body %></p>
+
+          <p class="card-text show-page-body"><%- showParaFunc(blog.body) %></p>
           <div class="card-footer text-muted mb-3">
             <%= moment(blog.createdAt).fromNow() %>
           </div>

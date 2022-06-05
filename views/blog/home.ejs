@@ -6,29 +6,31 @@
           <ul class="nav nav-tabs" style="width:60%">
           <% if(currentUser!==undefined){ %> 
             <li class="nav-item">
-              <a class="nav-link <%= (global===false ? "active" : "") %>"  href="/home" aria-current="<%= (global===false ? "page" : "") %>">Your Feed</a>
+              <a class="nav-link <%= (global===false ? "active" : "") %>"  href="/home" aria-current="<%= (global===false ? "page" : "") %>"><b>Your Feed</b></a>
             </li>
             <% } %> 
             <li class="nav-item">
-              <a class="nav-link <%= (global===true ? "active" : "") %>" href="/global" aria-current="<%= (global===false ? "page" : "") %>">Global Feed</a>
+              <a class="nav-link <%= (global===true ? "active" : "") %>" href="/global" aria-current="<%= (global===false ? "page" : "") %>"><b>Global Feed</b></a>
             </li>
 
             <% if(tag){ %>
               <li class="nav-item">
-                <a class="nav-link <%= (tag ? "active" : "") %>" href="/tag/<%= tag %> " aria-current="<%= (global===false ? "page" : "") %>"># <%= tag %>  </a>
+                <a class="nav-link <%= (tag ? "active" : "") %>" href="/tag/<%= tag %> " aria-current="<%= (global===false ? "page" : "") %>"><b># <%= tag %> </b>  </a>
               </li>
               <% } %>  
-            
+
         
         </ul>
         <div class="main-cards">
           <% if(blogs.length === 0){ %>
             <div class="home-page-div-notfollowinganyone">
-              <span> You do not follow any creator </span>
+              <span> <br>Nothing to show here for now :( </span>
+              <br>
               <a href="/global"><button class="btn btn-success" >Browse Global Feed</button></a> 
             </div>
             <% } %>  
         <% for(let blog of blogs){ %>
+
             <div class="card mb-3">
                 <span class="card-header" style="font-size:13px"><img src="https://miro.medium.com/fit/c/25/25/1*dmbNkD5D-u45r44go_cf0g.png" alt="">&nbsp <b><%= blog.author.username %></b>  </span>
                 <div class="card-body">
@@ -42,7 +44,8 @@
                   <%= moment(blog.createdAt).fromNow() %>
                 </div>
             </div>
-        <% } %>  
+        <% } %>
+          
       </div>
         </div>
   

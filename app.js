@@ -87,16 +87,28 @@ app.get('/home', async (req, res) => {
         const { following } = await User.findById(req.user._id);
         const blogs = await Blog.find({ author: { $in: following } }).populate('author').sort('-createdAt');
         const tags = await Tag.find({});
-        res.render('blog/home', { blogs, tags, global: false, tag: false })
+        res.render('blog/home', { blogs, tags, global: false, tag: false, authorPage: false })
     } else {
         res.redirect('/global');
     }
 })
+
+//global
 app.get('/global', async (req, res) => {
     const blogs = await Blog.find({}).populate('author').sort('-createdAt');
     const tags = await Tag.find({});
-    res.render('blog/home', { blogs, tags, global: true, tag: false })
+    res.render('blog/home', { blogs, tags, global: true, tag: false, authorPage: false})
 })
+
+//User page
+app.get('/profile/posts', async (req, res) => {
+    var user = await User.find({_id: req.user._id})
+    var authorName = user[0].username
+    const blogsByAuthor = await Blog.find({ author: req.user._id }).populate('author').sort('-createdAt');
+    const tags = await Tag.find({});
+    res.render('blog/home', { blogs:blogsByAuthor, tags, global: false, tag: false, authorPage: true, authorName: authorName})
+})
+
 
 // new blog creation
 app.get('/blog/new', isLoggedIn, (req, res) => {
@@ -104,7 +116,7 @@ app.get('/blog/new', isLoggedIn, (req, res) => {
 })
 app.post('/blog/new', isLoggedIn, upload.single('coverImage'), async (req, res) => {
     const { title, description, tags, body, createdAt } = req.body;
-    const tagsArray = tags.split(',').map(tag => tag.trim());
+    const tagsArray =  (tags.replace('#','').replace(' ','_')).split(',').map(tag => tag.trim());
     const newBlog = new Blog({
         title,
         coverImage: (req.file ?  {
@@ -125,6 +137,7 @@ app.post('/blog/new', isLoggedIn, upload.single('coverImage'), async (req, res) 
         await newTag.save();
     })
     req.flash('success', 'New blog post added');
+    // res.redirect(`/blog/${newBlog._id}`);
     res.redirect('/global')
 })
 
@@ -137,7 +150,7 @@ app.delete('/blog/:blogId/delete', isLoggedIn, isAuthor, async (req, res) => {
         try{
             await cloudinary.uploader.destroy(blog.coverImage.filename);
         }catch(err){
-            console.log(err);
+            // console.log(err);
         }
     }
     res.redirect('/home');
@@ -150,7 +163,7 @@ app.get('/blog/:blogId/edit', isLoggedIn, isAuthor, async (req, res) => {
 })
 app.put('/blog/:blogId/edit',upload.single('coverImage'), isLoggedIn, isAuthor, async (req, res) => {
     const { title, description, tags, body} = req.body;
-    const tagsArray = tags.split(',').map(tag => tag.trim());
+    const tagsArray = (tags.replace('#','').replace(' ','_')).split(',').map(tag => tag.trim());
     const { blogId } = req.params;
     // console.log(req.file);
     const updatedBlog = {
@@ -161,7 +174,7 @@ app.put('/blog/:blogId/edit',upload.single('coverImage'), isLoggedIn, isAuthor, 
         } : null),
         description,
         body,
-        tagList: [...tagsArray],
+        tagList: [...tagsArray]
     };
 
     const blog = await Blog.findByIdAndUpdate(blogId, updatedBlog, { useFindAndModify: false });
@@ -194,12 +207,14 @@ app.get('/blog/:blogId', async (req, res) => {
     const authorEqualCurrentUser = (blog.author._id.equals(req.user._id));
     res.render('blog/show', { blog, following, loggedIn: true, authorEqualCurrentUser });
 })
+
 //tag
 app.get('/tag/:tagname', async (req, res) => {
     const { tagname } = req.params;
-    const blogs = await Blog.find({ tagList: { $eq: tagname } }).populate('author')
+    // const authorPage = null;
+    const blogs = await Blog.find({ tagList: { $eq: tagname } }).populate('author').sort('-createdAt');
     const tags = await Tag.find({});
-    res.render('blog/home', { blogs, tag: tagname, tags })
+    res.render('blog/home', { blogs, tag: tagname, tags, authorPage: null })
     // res.send(blogs);
 })
 
@@ -241,6 +256,7 @@ app.post('/user/login', passport.authenticate('local', { session: true, failureF
 //User logout 
 app.get('/user/logout', (req, res) => {
     req.logout();
+    console.log(req.user)
     req.flash('success', 'Logged out successfully')
     res.redirect('/home');
 })
