@@ -71,10 +71,6 @@ app.use((req, res, next) => {
     next();
 })
 
-app.get('/landing',(req,res)=>{
-    res.render('air/index');
-})
-
 app.get('/', (req, res) => {
     res.redirect('/home');
 })

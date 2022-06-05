@@ -1,5 +1,8 @@
 <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
+    <div class="navbar-nav">
+      <a class="nav-link active" aria-current="page" href="/home"><i class="fa fa-home"></i></a>
+    </div>
     <a class="navbar-brand" href="/global">ClearView</a>
     <button
       class="navbar-toggler"
@@ -13,9 +16,7 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="/home">Home</a>
-      </div>
+
       <div class="navbar-nav ms-auto">
 
         <% if(!currentUser) {%>
