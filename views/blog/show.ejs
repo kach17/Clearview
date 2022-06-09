@@ -8,7 +8,7 @@
           style="text-decoration: none; 
             color: #000;">
           <h5 class="card-title"><b><%= blog.author.username %></b></h5>
-        </a>
+          </a>
           <hr />
           <% if(loggedIn && !(authorEqualCurrentUser)){ %> <% if(following){ %>
           <form
@@ -32,6 +32,31 @@
           <% } %> <% } %>
         </div>
       </div>
+      <div class="mt-3">
+        <% if(loggedIn){ %> <% if(saved){ %>
+          <form
+            action="/<%= blog._id %>/unsave"
+            method="POST"
+          >
+            <button class="btn btn-secondary">
+              Remove from read later!
+            </button>
+          </form>
+
+        <% }else{ %>
+        <form
+        action="/<%= blog._id %>/save"
+        method="POST"
+        >
+        <button class="btn btn-primary col-12">
+         Read later!
+        </button>
+        </form>
+        <% } %> <% } %>
+      </div>
+      <!-- <div>
+        <input type="button" value="Go back!" onclick="history.back()">
+      </div> -->
     </div>
 
     <!--Function to include line breaks in body  -->
@@ -62,6 +87,7 @@
             <%= moment(blog.createdAt).fromNow() %>
           </div>
 
+        <div>
           <% if(currentUser && currentUser._id.equals(blog.author._id)){ %>
           <a href="/blog/<%= blog._id %>/edit" class="btn btn-primary">Edit</a>
           <form
@@ -73,6 +99,7 @@
             <button class="btn btn-danger">Delete</button>
           </form>
           <% } %>
+        </div>
         </div>
       </div>
     </div>

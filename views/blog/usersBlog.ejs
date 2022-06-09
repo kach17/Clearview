@@ -1,18 +1,20 @@
 <%- layout('./layouts/boilerplate') %>
-<h4 class="mb-3 text-center">Blogs by <cite><b><%= authorName %></b></cite></h4>
-<!-- const blogsByAuthor = await Blog.find({ author: req.user._id }).populate('author').sort('-createdAt'); -->
+
+<h4 class="mb-3 text-center"><%= contentType %><br><cite><b><%= authorName %></b></cite></h4>
+
 <div class="row">
 	<div class="row justify-content-center">
 		<% for(let blog of blogs){ %>
 
 			<div class="card mb-3 w-75">
-				<div class="row">	
+				<div class="row col-12>	
 					<a href="/<%= blog.author._id %>/posts" 
 						style="text-decoration: none; 
 						  color: #000;
 						  font-size:13px">
-					<div class="card-header" style="font-size:13px"><img src="https://miro.medium.com/fit/c/25/25/1*dmbNkD5D-u45r44go_cf0g.png" alt="">&nbsp <b><%= blog.author.username %></b>  </div>
-					</a>
+					<div class="card-header"><img src="https://miro.medium.com/fit/c/25/25/1*dmbNkD5D-u45r44go_cf0g.png" alt="">&nbsp <b><%= blog.author.username %></b>  </div>
+
+				</a>
 					<div class="card-body">
 						<a href="/blog/<%= blog._id %>" style="text-decoration:none;color:black">
 							<h4 style="font-weight:bold" class="card-title home-page-title"><%= blog.title %></h4>

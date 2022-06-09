@@ -16,6 +16,10 @@ const userSchema = new Schema({
     following:{
         type:[Schema.Types.ObjectId],
         ref:'User'
+    },
+    saved:{
+        type:[Schema.Types.ObjectId],
+        ref:'Blog'
     }
 });
 
