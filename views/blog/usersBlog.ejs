@@ -1,32 +1,54 @@
 <%- layout('./layouts/boilerplate') %>
 
-<h4 class="mb-3 text-center"><%= contentType %><br><cite><b><%= authorName %></b></cite></h4>
+  <div class="container">
+    <div class="row">
+      <div class="col-8">
+        <h4 class="mb-3 text-center"><%= contentType %><br><cite><b><%= authorName %></b></cite></h4>
+      <div class="main-cards">
+        <% if(blogs.length === 0){ %>
+          <div class="home-page-div-notfollowinganyone text-center">
+            <span> <br>Nothing to show here for now :( </span>
+            <br>
+            <a href="/global" class="btn btn-success text-center mt-3" >Browse Global Feed</a> 
+          </div>
+          <% } %>  
+        <% for(let blog of blogs){ %>
 
-<div class="row">
-	<div class="row justify-content-center">
-		<% for(let blog of blogs){ %>
+          <div class="card mb-3">
+            <a href="/profile/<%= blog.author._id %>" 
+              style="text-decoration: none; 
+                color: #000;
+                font-size:13px">
+              <div class="card-header"><img src="https://miro.medium.com/fit/c/25/25/1*dmbNkD5D-u45r44go_cf0g.png" alt="">&nbsp <b><%= blog.author.username %></b>  </div>
+            </a>
+              <div class="card-body">
+                <a href="/blog/<%= blog._id %>" style="text-decoration:none;color:black">
+                  <h4 style="font-weight:bold" class="card-title home-page-title"><%= blog.title %></h4>
+                  <p class="card-text text-muted"><%= blog.description %></p> </p>
+                </a>
+              </div>
+              <div class="card-footer text-muted">
+                <%= moment(blog.createdAt).fromNow() %>
+              </div>
+          </div>
+        <% } %>
+        
+      </div>
+    </div>
 
-			<div class="card mb-3 w-75">
-				<div class="row col-12>	
-					<a href="/<%= blog.author._id %>/posts" 
-						style="text-decoration: none; 
-						  color: #000;
-						  font-size:13px">
-					<div class="card-header"><img src="https://miro.medium.com/fit/c/25/25/1*dmbNkD5D-u45r44go_cf0g.png" alt="">&nbsp <b><%= blog.author.username %></b>  </div>
-
-				</a>
-					<div class="card-body">
-						<a href="/blog/<%= blog._id %>" style="text-decoration:none;color:black">
-							<h4 style="font-weight:bold" class="card-title home-page-title"><%= blog.title %></h4>
-							<p class="card-text text-muted"><%= blog.description %></p> </p>
-						</a>
-						<!-- <a href="blog/<%= blog._id %>" class="btn btn-primary">View</a> -->
-					</div>
-					<div class="card-footer text-muted">
-						<%= moment(blog.createdAt).fromNow() %>
-					</div>
-				</div>
-			</div>
-		<% } %>
-	</div>
+      <div class="col-2 offset-md-1 mt-5 col-sm-0">
+        <div class="card">
+          <div class="card-header text-center text-white bg-dark">
+            Tags
+          </div>
+        
+          <div class="card-body">
+            <% for(let tag of tags){ %>
+              <a href="/tag/<%= tag.tag %>"> <span class="btn badge rounded-pill bg-secondary"> <%= tag.tag %> </span></a>   
+              <% } %>  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

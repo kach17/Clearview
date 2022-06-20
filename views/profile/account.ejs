@@ -1,0 +1,33 @@
+<%- layout('./layouts/boilerplate') %>
+
+<section class="profile">
+    <header class="header">
+      <div class="details">
+        <img src="https://miro.medium.com/fit/c/25/25/1*dmbNkD5D-u45r44go_cf0g.png" class="profile-pic">
+        <p><h1 class="heading btn-dark"><%= authorName %></h1></p>
+        <div class="stats flex row">
+          <div class="col-4 m-3 card">
+            <h4><%= followers %></h4>
+            <p>Followers</p>
+          </div>
+          <div class="col-4 m-3 card">
+            <h4><%= following %></h4>
+            <p>Following</p>
+          </div>
+        </div>
+      </div>
+    </header>
+    <div class="row text-center">
+            <a href="/profile/<%= authorId %>/posts">
+                <button class="btn btn-primary col-3 my-3">Posts</button>
+            </a>
+            <a href="/new/info" >
+                <button class="btn btn-primary col-3">Settings</button>
+            </a>
+            <% if(loggedIn){ %>
+              <a href="/profile/<%= authorId %>/saved" >
+                <button class="btn btn-primary col-3 my-3">Saved</button>
+            </a>
+            <% } %>
+    </div>
+  </section>

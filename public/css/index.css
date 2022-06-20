@@ -27,12 +27,10 @@
 .home-page-div-notfollowinganyone {
   margin-top: 50px;
 }
-.home-page-div-notfollowinganyone button {
+.home-page-div-notfollowinganyone a {
   margin-top: 10px;
   display: block;
   border-radius: 25px;
-}
-.home-page-div-notfollowinganyone a {
   text-decoration: none;
 }
 
@@ -41,4 +39,45 @@
   bottom: 20px;
   right: 20px;
   display: none;
+}
+
+@import url("https://fonts.googleapis.com/css?family=Lato:400,400i,700");
+
+body {
+  margin: 0;
+  font-family: 'Lato', sans-serif;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.details {
+  text-align: center;
+}
+
+.profile-pic {
+  height: 6rem;
+  width: 6rem;
+  object-fit: center;
+  border-radius: 50%;
+  border: 3px solid #212529;
+}
+
+.stats {
+  display: flex;
+  border: 1px solid rgba(0,0,0,.125);
+}
+
+.stats .col-4 {
+  width: 10rem;
+  text-align: center;
+}
+
+.heading {
+  font-weight: 400;
+  font-size: 1.3rem;
+  margin: 1rem 0;
 }

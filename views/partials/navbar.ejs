@@ -27,7 +27,7 @@
           ><i class="far fa-edit active"></i>&nbsp New Post</a
         >
         <a class="nav-link active" href="/user/logout">Logout</a>
-        <a class="nav-link active bg-danger" href="/profile/posts" > <%= currentUser.username.toUpperCase() %> </a>
+        <a class="nav-link active bg-danger" href="/profile/<%= currentUser._id %>/" > <%= currentUser.username.toUpperCase() %> </a>
         <% } %>
       </div>
       </div>

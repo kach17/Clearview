@@ -97,36 +97,60 @@ app.get('/global', async (req, res) => {
 })
 
 //Profile page
-
-// my posts
-app.get('/profile/posts', async (req, res) => {
-    var user = await User.find({_id: req.user._id})
+app.get('/profile/:authorId', async (req, res) => {
+    const {authorId } = req.params;
+    var user = await User.find({_id: authorId})
+    var followers = user[0].followers.length;
+    var following = user[0].followers.length;
     var authorName = user[0].username
-    const blogsByAuthor = await Blog.find({ author: req.user._id }).populate('author').sort('-createdAt');
-    res.render('blog/usersBlog', {contentType:"Blogs by ", blogs:blogsByAuthor, authorName: authorName})
+    const currentUserId = req.user && req.user._id;
+    if (isLoggedIn && currentUserId == authorId) {
+        return  res.render('profile/account', { authorId: authorId, following: following, followers: followers, authorName: authorName, loggedIn: true })
+    }
+    else{
+        return  res.render('profile/account', { authorId: authorId, following: following, followers: followers, authorName: authorName, loggedIn: false })
+
+    }
 })
 
+
+//Users post page
+app.get('/profile/:authorId/posts', async (req, res) => {
+    const {authorId } = req.params;
+    var user = await User.find({_id: authorId})
+    var followers = user[0].followers.length;
+    var following = user[0].followers.length;
+    var authorName = user[0].username
+    const tags = await Tag.find({});
+    const blogsByAuthor = await Blog.find({ author: authorId }).populate('author').sort('-createdAt');
+    res.render('blog/usersBlog', { contentType:"Blogs by ", blogs:blogsByAuthor, authorName: authorName, tags: tags})
+})
+
+
+// my posts
+// app.get('/profile/posts', async (req, res) => {
+//     var user = await User.find({_id: req.user._id})
+//     var authorName = user[0].username
+//     const blogsByAuthor = await Blog.find({ author: req.user._id }).populate('author').sort('-createdAt');
+//     res.render('blog/usersBlog', {contentType:"Blogs by ", blogs:blogsByAuthor, authorName: authorName})
+// })
+
 // saved posts
-app.get('/profile/saved', async (req, res) => {
+app.get('/profile/:authorId/saved', async (req, res) => {
     var user = await User.find({_id: req.user._id})
     var authorName = user[0].username
     var savedPosts = req.user.saved;
+    const tags = await Tag.find({});
     const blogsByAuthor = await Blog.find({_id:{$in: savedPosts}}).populate('author').sort('-createdAt');
-    res.render('blog/usersBlog', { contentType:"Saved posts", blogs:blogsByAuthor, authorName: authorName})
+    res.render('blog/usersBlog', { contentType:"Saved posts", blogs:blogsByAuthor, authorName: authorName, tags})
+})
+
+app.get('/new/info', async (req, res) => {
+    res.render('profile/userInfo', {})
 })
 
     // authorId = Blog Writer
     // req.user._id = Account Owner
-
-
-//User page
-app.get('/:authorId/posts', async (req, res) => {
-    const {authorId } = req.params;
-    var user = await User.find({_id: authorId})
-    var authorName = user[0].username
-    const blogsByAuthor = await Blog.find({ author: authorId }).populate('author').sort('-createdAt');
-    res.render('blog/usersBlog', { contentType:"Blogs by ", blogs:blogsByAuthor, authorName: authorName})
-})
 
 // new blog creation
 app.get('/blog/new', isLoggedIn, (req, res) => {
